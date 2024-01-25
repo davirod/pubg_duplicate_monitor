@@ -33,6 +33,7 @@ while (-not $extraProcessTerminated) {
             $extraProcessTerminated = $true
         } else {
             Write-Host "Only one or no $($gameProcessName) process found."
+            exit
         }
     }
 }
