@@ -1,6 +1,11 @@
+$powershellApplicationName = "Start PUBG and Monitor Application"
 $gameProcessName = "TslGame"
 $gameSteamId = "578080"
 $extraProcessTerminated = $false
+$secondsToAwait = 10
+
+
+Write-Host "Initialising $($powershellApplicationName)"
 
 # OK, we need to first check if the game is already running
 $gameProcess = Get-Process $gameProcessName -ErrorAction SilentlyContinue
@@ -11,11 +16,16 @@ if (-not $gameProcess) {
     # This command will start PUBG via steam. Make sure you have steam running.
     Start-Process "steam://rungameid/$($gameSteamId)"
 }
+else {
+    Write-Host "PUBG is already running."
+}
 
 while (-not $extraProcessTerminated) {
+    Write-Host "Waiting for $($secondsToAwait) seconds to start search..."
     # Start monitoring
-    Start-Sleep -Seconds 10
+    Start-Sleep -Seconds $secondsToAwait
 
+    Write-Host "Searching for $($gameProcessName) processes."
     $gameProcess = Get-Process $gameProcessName -ErrorAction SilentlyContinue
 
     if ($gameProcess) {
@@ -32,6 +42,9 @@ while (-not $extraProcessTerminated) {
             $extraProcessTerminated = $true
         } else {
             Write-Host "Only one or no $($gameProcessName) process found."
+            Write-Host "Closing $($powershellApplicationName) in $($secondsToAwait) seconds..."
+            # Start monitoring
+            Start-Sleep -Seconds $secondsToAwait
             exit
         }
     }
