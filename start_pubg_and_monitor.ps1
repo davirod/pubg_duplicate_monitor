@@ -39,15 +39,15 @@ while (-not $extraProcessTerminated) {
             # Terminate the process using the least memory
             $leastMemoryProcess | Stop-Process -Force
             Write-Host "Terminated $($gameProcessName) with ID $($leastMemoryProcess.Id) using the least memory."
+            Write-Host "Wait for PUBG to open and HAVE FUN!"
             $extraProcessTerminated = $true
         } else {
             Write-Host "Only one or no $($gameProcessName) process found."
-            Write-Host "Closing $($powershellApplicationName) in $($secondsToAwait) seconds..."
-            # Start monitoring
-            Start-Sleep -Seconds $secondsToAwait
-            exit
+            $extraProcessTerminated = $true
         }
     }
 }
 
+Write-Host "Closing $($powershellApplicationName) in $($secondsToAwait) seconds..."
+Start-Sleep -Seconds $secondsToAwait
 exit

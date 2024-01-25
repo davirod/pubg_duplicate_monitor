@@ -11,4 +11,5 @@
 # Built Visual Studio Code Extensions
 *.vsix
 
-.exe
+*.exe
+start_pubg_and_monitor.exe
